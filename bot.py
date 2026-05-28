@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 import os
 import requests
 import asyncio
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# Usamos variables de entorno para mayor seguridad (configuradas en Render)
+# Usamos variables de entorno (configuradas en Render)
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 FOOTBALL_TOKEN = os.getenv('FOOTBALL_TOKEN')
 HEADERS = { 'X-Auth-Token': FOOTBALL_TOKEN }
@@ -30,13 +31,13 @@ async def analizar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     stats_v = obtener_equipo_match(liga, visitante)
     
     if stats_l and stats_v:
-        respuesta = f"?? *Análisis: {stats_l['team']['name']} vs {stats_v['team']['name']}*\n\n"
+        respuesta = f"Analisis: {stats_l['team']['name']} vs {stats_v['team']['name']}\n\n"
         respuesta += f"Puntos {stats_l['team']['shortName']}: {stats_l['points']}\n"
         respuesta += f"Puntos {stats_v['team']['shortName']}: {stats_v['points']}\n"
         respuesta += f"Goles Favor {stats_l['team']['shortName']}: {stats_l['goalsFor']}"
-        await update.message.reply_text(respuesta, parse_mode='Markdown')
+        await update.message.reply_text(respuesta)
     else:
-        await update.message.reply_text("No encontré los equipos, intenta con un nombre más corto.")
+        await update.message.reply_text("No encontre los equipos, intenta con un nombre mas corto.")
 
 if __name__ == '__main__':
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
