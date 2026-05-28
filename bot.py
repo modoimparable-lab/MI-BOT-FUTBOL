@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 import requests
-import asyncio
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# Usamos variables de entorno (configuradas en Render)
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 FOOTBALL_TOKEN = os.getenv('FOOTBALL_TOKEN')
 HEADERS = { 'X-Auth-Token': FOOTBALL_TOKEN }
@@ -42,5 +40,4 @@ async def analizar(update: Update, context: ContextTypes.DEFAULT_TYPE):
 if __name__ == '__main__':
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("analizar", analizar))
-    print("Bot activo...")
     app.run_polling()
